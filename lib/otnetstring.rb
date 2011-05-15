@@ -15,18 +15,10 @@ module OTNetstring
     when '~' then nil
     when '!' then io.read(length) == 'true'
     when '[', '{'
-      hash   = byte == "{"
-      object = hash ? {} : []
-      start  = io.pos
-      while io.pos - start < length
-        value = parse(io)
-        if hash
-          object[value] = parse(io)
-        else
-          object << value
-        end
-      end
-      object
+      array = []
+      start = io.pos
+      array << parse(io) while io.pos - start < length
+      byte == "{" ? Hash[*array] : array
     end
   end
 
