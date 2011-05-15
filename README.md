@@ -3,7 +3,7 @@
 Similar to [Tagged Netstrings](http://tnetstrings.org/), but optimized for streaming.
 
 What changed: The type info is not at the end of the encoded data, but at the beginning, right after
-the size info. That way nested objects can be created while reading from the stream. That way it is
+the size info. That way nested objects can be created while reading from the stream. Therefore it is
 rather similar to [Bencode](http://en.wikipedia.org/wiki/Bencode), plus the Nestring advantage of
 always knowing how many bytes to read.
 
