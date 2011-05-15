@@ -131,7 +131,7 @@ describe OTNetstring do
     end
 
     it "rejects non-primitives" do
-      expect { TNetstring.encode(Object.new) }.to raise_error
+      expect { OTNetstring.encode(Object.new) }.to raise_error(OTNetstring::Error)
     end
   end
 end

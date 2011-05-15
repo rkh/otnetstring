@@ -42,7 +42,7 @@ module OTNetstring
     when Array    then encode(obj.map { |e| encode(e) }.join, '[')
     when Hash     then encode(obj.map { |a,b| encode(a)+encode(b) }.join, '{')
     when FalseClass, TrueClass then encode(obj.inspect, '!')
-    else fail 'cannot encode %p' % obj
+    else raise Error, 'cannot encode %p' % obj
     end
   end
 end
