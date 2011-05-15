@@ -59,6 +59,12 @@ describe OTNetstring do
     it "parses a boolean" do
       OTNetstring.parse('4!true!').should == true
     end
+
+    it "raises an error if length is longer than 9 digits" do
+      lambda {
+        OTNetstring.parse('9' * 10 + ',')
+      }.should raise_error(OTNetstring::Error, '9999999999 is longer than 9 digits')
+    end
   end
 
   context "encoding" do
