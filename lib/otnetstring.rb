@@ -28,6 +28,7 @@ module OTNetstring
       array = []
       start = io.pos
       array << parse(io) while io.pos - start < length
+      raise Error, 'Nested element longer than container' if io.pos - start != length
       byte == "{" ? Hash[*array] : array
     else
       raise Error, "Unknown type '#{byte}'"

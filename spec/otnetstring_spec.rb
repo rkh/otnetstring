@@ -77,6 +77,12 @@ describe OTNetstring do
         OTNetstring.parse('3?123')
       }.should raise_error(OTNetstring::Error, "Unknown type '?'")
     end
+
+    it 'raises and error if length of elements does not match array length' do
+      lambda {
+        OTNetstring.parse('4{5,12345')
+      }.should raise_error(OTNetstring::Error, "Nested element longer than container")
+    end
   end
 
   context "encoding" do
