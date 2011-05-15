@@ -29,6 +29,8 @@ module OTNetstring
       start = io.pos
       array << parse(io) while io.pos - start < length
       byte == "{" ? Hash[*array] : array
+    else
+      raise Error, "Unknown type '#{byte}'"
     end
   end
 

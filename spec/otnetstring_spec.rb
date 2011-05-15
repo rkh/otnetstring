@@ -71,6 +71,12 @@ describe OTNetstring do
         OTNetstring.parse('9' * 10 + ',')
       }.should raise_error(OTNetstring::Error, '9999999999 is longer than 9 digits')
     end
+
+    it "raise an error if type is unknown" do
+      lambda {
+        OTNetstring.parse('3?123')
+      }.should raise_error(OTNetstring::Error, "Unknown type '?'")
+    end
   end
 
   context "encoding" do
