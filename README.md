@@ -9,12 +9,13 @@ always knowing how many bytes to read.
 
 Objects look like this:
 
-    Ruby          TNetstring      OTNetstring
-    42            2:42#           2#42
-    "hi"          2:hi,           2,hi
-    true          4:true!         4!true
-    [1]           4:1:1#}         3:{1#1
-    {"a" => "b"}  8:1:a,=1:b,}    6{1,a1,b
+    Ruby            TNetstring      OTNetstring     Bencode
+    
+    42              2:42#           2#42            i42e
+    "hi"            2:hi,           2,hi            2:hi
+    true            4:true!         4!true          (not possible)
+    [1]             4:1:1#}         3:{1#1          li1ee
+    {"a" => "b"}    8:1:a,=1:b,}    6{1,a1,b        d1:a1:be
 
 Similar implementations (both pure ruby, using recursion for nested objects) show the performance
 difference, esp. when simulating a network IO:
