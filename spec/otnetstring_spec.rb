@@ -60,6 +60,12 @@ describe OTNetstring do
       OTNetstring.parse('4!true!').should == true
     end
 
+    it "raises an error if length is missing" do
+      lambda {
+        OTNetstring.parse('#123')
+      }.should raise_error(OTNetstring::Error, "Expected '#' to be a digit")
+    end
+
     it "raises an error if length is longer than 9 digits" do
       lambda {
         OTNetstring.parse('9' * 10 + ',')

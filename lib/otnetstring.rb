@@ -14,6 +14,8 @@ module OTNetstring
 
     if length.size > 9
       raise Error, "#{length} is longer than 9 digits"
+    elsif length !~ /\d+/
+      raise Error, "Expected '#{byte}' to be a digit"
     end
     length = Integer(length)
 
