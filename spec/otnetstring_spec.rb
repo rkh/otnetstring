@@ -68,6 +68,36 @@ describe OTNetstring do
     it "parses a boolean" do
       OTNetstring.parse('4!true!').should == true
     end
+
+    it "raises an error if length is missing" do
+      lambda {
+        OTNetstring.parse('#123')
+      }.should raise_error(OTNetstring::Error, "Expected '#' to be a digit")
+    end
+
+    it "raises an error if length is longer than 9 digits" do
+      lambda {
+        OTNetstring.parse('9' * 10 + ',')
+      }.should raise_error(OTNetstring::Error, '9999999999 is longer than 9 digits')
+    end
+
+    it "raise an error if type is unknown" do
+      lambda {
+        OTNetstring.parse('3?123')
+      }.should raise_error(OTNetstring::Error, "Unknown type '?'")
+    end
+
+    it 'raises and error if length nil is not 0' do
+      lambda {
+        OTNetstring.parse('1~x')
+      }.should raise_error(OTNetstring::Error, "nil has length of 0, 1 given")
+    end
+
+    it 'raises and error if length of elements does not match array length' do
+      lambda {
+        OTNetstring.parse('4{5,12345')
+      }.should raise_error(OTNetstring::Error, "Nested element longer than container")
+    end
   end
 
   context "encoding" do
@@ -126,7 +156,7 @@ describe OTNetstring do
     end
 
     it "rejects non-primitives" do
-      expect { TNetstring.encode(Object.new) }.to raise_error
+      expect { OTNetstring.encode(Object.new) }.to raise_error(OTNetstring::Error)
     end
   end
 end
