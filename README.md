@@ -18,7 +18,7 @@ Objects look like this:
     {"a" => "b"}    8:1:a,=1:b,}    6{1,a1,b        d1:a1:be
 
 Similar implementations (both pure ruby, using recursion for nested objects) show the performance
-difference, esp. when simulating a network IO:
+difference, esp. when simulating network IO:
 
                                                               user     system      total        real
     TNetstring: simple objects                            0.000000   0.000000   0.000000 (  0.000160)
