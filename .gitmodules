@@ -1,0 +1,3 @@
+[submodule "vendor/tnetstring-rb"]
+	path = vendor/tnetstring-rb
+	url = https://github.com/mattyoho/tnetstring-rb.git
