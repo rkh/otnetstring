@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Based on tnetstring-rb's spec/tnetstring_spec.rb
 #
 # Copyright (c) 2011 Matt Yoho
@@ -68,6 +69,10 @@ describe OTNetstring do
 
     it "encodes a string" do
       OTNetstring.encode("hello world").should == "11,hello world"
+    end
+
+    it "encodes a multibyte string" do
+      OTNetstring.encode("☃").should == "3,☃"
     end
 
     context "boolean" do

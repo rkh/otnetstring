@@ -24,7 +24,7 @@ module OTNetstring
 
   def self.encode(obj, string_sep = ',')
     case obj
-    when String   then "#{obj.length}#{string_sep}#{obj}"
+    when String   then "#{obj.bytesize}#{string_sep}#{obj}"
     when Integer  then encode(obj.inspect, '#')
     when NilClass then "0~"
     when Array    then encode(obj.map { |e| encode(e) }.join, '[')
