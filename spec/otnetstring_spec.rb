@@ -25,6 +25,10 @@ require 'otnetstring'
 
 describe OTNetstring do
   context "parsing" do
+    before do
+      Encoding.default_internal = 'utf-8'
+    end
+
     it "parses an integer" do
       OTNetstring.parse('5#12345').should == 12345
     end
@@ -35,6 +39,10 @@ describe OTNetstring do
 
     it "parses a string" do
       OTNetstring.parse('12,this is cool').should == "this is cool"
+    end
+
+    it "parses a multibyte string" do
+      OTNetstring.parse("3,☃").should == "☃"
     end
 
     it "parses to an empty array" do

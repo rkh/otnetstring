@@ -1,7 +1,7 @@
 require 'stringio'
 
 module OTNetstring
-  def self.parse(io)
+  def self.parse(io, encoding = 'internal')
     io = StringIO.new(io) if io.respond_to? :to_str
     length, byte = "", "0"
     while byte =~ /\d/
@@ -11,7 +11,10 @@ module OTNetstring
     length = length.to_i
     case byte
     when '#' then Integer io.read(length)
-    when ',' then io.read(length)
+    when ',' then
+      str = io.read(length)
+      str.force_encoding(encoding) if str.respond_to?(:force_encoding)
+      str
     when '~' then nil
     when '!' then io.read(length) == 'true'
     when '[', '{'
