@@ -9,7 +9,7 @@ module OTNetstring
 
     while byte.nil? || byte =~ /\d/
       length << byte if byte
-      byte = io.readchar
+      byte = io.read(1)
     end
 
     if length.size > 9
