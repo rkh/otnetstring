@@ -6,7 +6,7 @@ module OTNetstring
     length, byte = "", "0"
     while byte =~ /\d/
       length << byte
-      byte = io.readchar
+      byte = io.read(1)
     end
     length = length.to_i
     case byte
