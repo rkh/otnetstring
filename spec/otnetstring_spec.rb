@@ -78,6 +78,12 @@ describe OTNetstring do
       }.should raise_error(OTNetstring::Error, "Unknown type '?'")
     end
 
+    it 'raises and error if length nil is not 0' do
+      lambda {
+        OTNetstring.parse('1~x')
+      }.should raise_error(OTNetstring::Error, "nil has length of 0, 1 given")
+    end
+
     it 'raises and error if length of elements does not match array length' do
       lambda {
         OTNetstring.parse('4{5,12345')

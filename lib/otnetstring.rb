@@ -22,7 +22,7 @@ module OTNetstring
     case byte
     when '#' then Integer io.read(length)
     when ',' then io.read(length)
-    when '~' then nil
+    when '~' then raise Error, "nil has length of 0, #{length} given" unless length == 0
     when '!' then io.read(length) == 'true'
     when '[', '{'
       array = []
