@@ -26,7 +26,7 @@ require 'otnetstring'
 describe OTNetstring do
   context "parsing" do
     before do
-      Encoding.default_internal = 'utf-8'
+      Encoding.default_internal = 'utf-8' if defined? Encoding
     end
 
     it "parses an integer" do
