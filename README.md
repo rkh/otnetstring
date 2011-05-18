@@ -4,7 +4,7 @@ Similar to [Tagged Netstrings](http://tnetstrings.org/), but optimized for strea
 
 What changed: The type info is not at the end of the encoded data, but at the beginning, right after
 the size info. That way nested objects can be created while reading from the stream. Therefore it is
-rather similar to [Bencode](http://en.wikipedia.org/wiki/Bencode), plus the Nestring advantage of
+rather similar to [Bencode](http://en.wikipedia.org/wiki/Bencode), plus the Netstring advantage of
 always knowing how many bytes to read.
 
 Objects look like this:
@@ -14,7 +14,7 @@ Objects look like this:
     42              2:42#           2#42            i42e
     "hi"            2:hi,           2,hi            2:hi
     true            4:true!         4!true          (not possible)
-    [1]             4:1:1#}         3:{1#1          li1ee
+    [1]             4:1:1#}         3[1#1           li1ee
     {"a" => "b"}    8:1:a,=1:b,}    6{1,a1,b        d1:a1:be
 
 Similar implementations (both pure ruby, using recursion for nested objects) show the performance
