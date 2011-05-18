@@ -3,7 +3,7 @@ require 'stringio'
 module OTNetstring
   class Error < StandardError; end
 
-  def self.parse(io)
+  def self.parse(io, encoding = 'internal')
     io = StringIO.new(io) if io.respond_to? :to_str
     length, byte = "", nil
 
@@ -21,8 +21,12 @@ module OTNetstring
 
     case byte
     when '#' then Integer io.read(length)
-    when ',' then io.read(length)
-    when '~' then raise Error, "nil has length of 0, #{length} given" unless length == 0
+    when ',' then
+      str = io.read(length)
+      str.force_encoding(encoding) if str.respond_to?(:force_encoding)
+      str
+    when '~' then
+      raise Error, "nil has length of 0, #{length} given" unless length == 0
     when '!' then io.read(length) == 'true'
     when '[', '{'
       array = []
@@ -37,7 +41,7 @@ module OTNetstring
 
   def self.encode(obj, string_sep = ',')
     case obj
-    when String   then "#{obj.length}#{string_sep}#{obj}"
+    when String   then "#{obj.bytesize}#{string_sep}#{obj}"
     when Integer  then encode(obj.inspect, '#')
     when NilClass then "0~"
     when Array    then encode(obj.map { |e| encode(e) }.join, '[')

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Based on tnetstring-rb's spec/tnetstring_spec.rb
 #
 # Copyright (c) 2011 Matt Yoho
@@ -24,6 +25,10 @@ require 'otnetstring'
 
 describe OTNetstring do
   context "parsing" do
+    before do
+      Encoding.default_internal = 'utf-8' if defined? Encoding
+    end
+
     it "parses an integer" do
       OTNetstring.parse('5#12345').should == 12345
     end
@@ -34,6 +39,10 @@ describe OTNetstring do
 
     it "parses a string" do
       OTNetstring.parse('12,this is cool').should == "this is cool"
+    end
+
+    it "parses a multibyte string" do
+      OTNetstring.parse("3,☃").should == "☃"
     end
 
     it "parses to an empty array" do
@@ -98,6 +107,10 @@ describe OTNetstring do
 
     it "encodes a string" do
       OTNetstring.encode("hello world").should == "11,hello world"
+    end
+
+    it "encodes a multibyte string" do
+      OTNetstring.encode("☃").should == "3,☃"
     end
 
     context "boolean" do
