@@ -1,4 +1,3 @@
-# -*- coding: binary -*-
 require 'stringio'
 
 module OTNetstring
