@@ -110,7 +110,7 @@ describe OTNetstring do
     end
 
     it "encodes a multibyte string" do
-      OTNetstring.encode("☃").should == "3,☃"
+      OTNetstring.encode("☃")[0..1].should == '3,'
     end
 
     context "boolean" do
@@ -157,6 +157,38 @@ describe OTNetstring do
 
     it "rejects non-primitives" do
       expect { OTNetstring.encode(Object.new) }.to raise_error(OTNetstring::Error)
+    end
+  end
+
+  context 'string encodings' do
+    before do
+      data = ["foo"]
+      pending "encodings not supported" unless data.first.respond_to? :encoding
+      data.first.encoding.should == Encoding::UTF_8
+      @encoded = OTNetstring.encode(data)
+    end
+
+    it "encodes encoded strings as binary" do
+      @encoded.encoding.should == Encoding.find('binary')
+    end
+
+    it "respects Encoding.default_internal when decoding" do
+      was, Encoding.default_internal = Encoding.default_internal, Encoding::ASCII
+      OTNetstring.parse(@encoded).first.encoding.should == Encoding::ASCII
+      Encoding.default_internal = was
+    end
+
+    it "respects incoming encoding when Encoding.default_internal is not set" do
+      was, Encoding.default_internal = Encoding.default_internal, nil
+      OTNetstring.parse(@encoded).first.encoding.should == Encoding::BINARY
+      OTNetstring.parse(@encoded.encode('utf-8')).first.encoding.should == Encoding::UTF_8
+      OTNetstring.parse(@encoded.encode('ascii')).first.encoding.should == Encoding::ASCII
+      Encoding.default_internal = was
+    end
+
+    it "lets you specify the wanted encoding" do
+      OTNetstring.parse(@encoded, 'ascii').first.encoding.should == Encoding::ASCII
+      OTNetstring.parse(@encoded, 'utf-8').first.encoding.should == Encoding::UTF_8
     end
   end
 end
